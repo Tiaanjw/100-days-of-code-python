@@ -22,7 +22,14 @@ states_guessed = []
 
 while len(states_guessed) < states_data.count().iloc[0]:
     user_input = screen.textinput(f"Guess the state ({len(states_guessed)}/{states_data.count().iloc[0]})", "What's another state name?")
+
     if user_input is None:
+        missing_states = []
+        for state in states_data.state:
+            if state not in states_guessed:
+                missing_states.append(state)
+        new_data = pandas.DataFrame(missing_states)
+        new_data.to_csv("states_to_learn.csv")
         exit()
     user_input = user_input.lower()
 
